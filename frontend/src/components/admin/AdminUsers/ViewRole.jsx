@@ -12,6 +12,7 @@ import axios from 'axios';
 function ViewRole({ uid, open, handleClose }) {
 
     const [userData, setUserData] = useState(null);
+    const [data, setData] = useState()
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -29,16 +30,27 @@ function ViewRole({ uid, open, handleClose }) {
         }
     }, [uid]);
 
-    const handleDeleteRole = async (uid, role_id) => {
+    // const handleDeleteRole = async (uid, role_id) => {
+    //     try {
+    //         // Send a request to delete the role with roleId for the user with uid
+    //         await axios.delete(`http://localhost:5000/api/admin/roleassign/revokerole/${uid}/${role_id}`);
+    //         // After successful deletion, update the user data
+    //         setUserData(prevData => prevData.filter(role => role.uid !== role_id));
+    //     } catch (error) {
+    //         console.error('Error deleting role:', error);
+    //     }
+    // }
+
+    const handleDelete = async (uid, role_id) => {
         try {
-            // Send a request to delete the role with roleId for the user with uid
-            await axios.delete(`http://localhost:5000/api/admin/roleassign/revokerole/${uid}/${role_id}`);
-            // After successful deletion, update the user data
-            setUserData(prevData => prevData.filter(role => role.uid !== role_id));
+          const response = await axios.delete(`http://localhost:5000/api/admin/roleassign/revokerole/${uid}/${role_id}`);
+          console.log(response.data); // Handle success
+          setUserData(userData.filter(role => role.role_id !== role_id));
         } catch (error) {
-            console.error('Error deleting role:', error);
+          console.error('Error deleting item:', error); // Handle error
         }
-    }
+      };
+      
 
 
     return (
@@ -49,11 +61,14 @@ function ViewRole({ uid, open, handleClose }) {
                     {userData ? (
                         <div>
                             {userData.map((role, index) => (
-                                <div key={index}>
+                                <div key={index} className='d-flex'>
                                     <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>
                                         Role Assign: {role.role_name}
                                     </Typography>
-                                    <Button variant="secondary" aria-label='delete' onClick={() => handleDeleteRole(uid, role.role_id)}>
+                                    {/* <Button variant="secondary" aria-label='delete' onClick={() => handleDeleteRole(uid, role.role_id)}>
+                                     */}
+                                     <Button variant="secondary" aria-label='delete' onClick={() => handleDelete(role.id)}>
+
                                         <DeleteIcon />
                                     </Button>
                                 </div>

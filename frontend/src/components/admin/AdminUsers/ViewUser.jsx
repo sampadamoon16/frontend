@@ -8,6 +8,18 @@ import {
 } from '@mui/material';
 import axios from 'axios'; 
 
+const style = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
 export default function ViewUser({ uid, open, handleClose }) {
   const [userData, setUserData] = useState(null);
 
@@ -41,20 +53,22 @@ export default function ViewUser({ uid, open, handleClose }) {
         <DialogContent>
           {userData ? (
             <div >
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>ID:  &nbsp; {userData.uid}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Name: &nbsp;   {userData.name}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>DOB:  &nbsp;{userData.dob}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Email: &nbsp;  {userData.email}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Password: &nbsp;  {userData.password}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Mobile: &nbsp; {userData.mobile}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Aadhar: &nbsp;  {userData.aadhar}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>DOJ:  &nbsp; {userData.doj}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Qualification: &nbsp; {userData.qualification}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Address: &nbsp; {userData.address}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>State: &nbsp; {userData.state}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>City:  &nbsp; {userData.city}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Pin: &nbsp;  {userData.pin}</Typography>
-              <Typography variant="h6" component="h6" style={{ color: "#7986cb" }}>Status: &nbsp; {userData.status}</Typography>
+              
+              <li><strong style={{ color: "darkblue" }}>Reg. No.:</strong> {userData.uid}</li>
+              <li><strong style={{ color: "darkblue" }}> Name: &nbsp; </strong>  {userData.name}</li>
+              <li><strong style={{ color: "darkblue" }}>DOB:  &nbsp;</strong> {userData.dob}</li>
+              <li><strong style={{ color: "darkblue" }}>Email: &nbsp; </strong> {userData.email}</li>
+              <li><strong style={{ color: "darkblue" }}>Password: &nbsp; </strong> {userData.password}</li>
+              <li><strong style={{ color: "darkblue" }}>Mobile: &nbsp;  </strong> {userData.mobile}</li>
+              <li><strong style={{ color: "darkblue" }}>Aadhar: &nbsp;  </strong> {userData.aadhar}</li>
+              <li><strong style={{ color: "darkblue" }}>DOJ:  &nbsp;   </strong> {userData.doj}</li>
+              <li><strong style={{ color: "darkblue" }}>Qualification: &nbsp;  </strong> {userData.qualification}</li>
+              <li><strong style={{ color: "darkblue" }}>Address: &nbsp;  </strong> {userData.address}</li>
+              <li><strong style={{ color: "darkblue" }}>State: &nbsp;  </strong> {userData.state}</li>
+              <li><strong style={{ color: "darkblue" }}>City:  &nbsp;  </strong> {userData.city}</li>
+              <li><strong style={{ color: "darkblue" }}>Pin: &nbsp;  </strong> {userData.pin}</li>
+              <li><strong style={{ color: "darkblue" }}>Status: &nbsp;</strong> {userData.status}</li>
+                            
             </div>
           ) : (
             <Typography>Loading...</Typography>

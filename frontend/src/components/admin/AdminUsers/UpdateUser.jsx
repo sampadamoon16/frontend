@@ -44,11 +44,11 @@ export default function UpdateUser({ show, handleClose, user }, props) {
 
         axios.patch(`http://localhost:5000/api/admin/userupdate/${update.uid}`, formdata)
             .then(response => {
-                console.log('Role updated successfully');
+                console.log('User updated successfully');
                 handleClose();
             })
             .catch(error => {
-                console.error('Error updating role:', error);
+                console.error('Error updating User:', error);
             });
     }
 
@@ -78,6 +78,7 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                 }}
                 noValidate
                 autoComplete="off"
+
             >
                 <Modal show={show} onHide={handleClose}
                     {...props}
@@ -86,9 +87,9 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                     centered
                 >
                     <Modal.Header closeButton>
-                        <Modal.Title>Edit User</Modal.Title>
+                        <Modal.Title >Edit User</Modal.Title>
                     </Modal.Header>
-                    <Modal.Body>
+                    <Modal.Body style={{ border: "1px solid black", boxShadow: "1px 1px 10px 0px " }} className='ms-3 me-3 rounded-2'>
                         <div className='mt-4'>
                             <TextField
                                 disabled
@@ -96,7 +97,7 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 label="Role ID"
                                 variant="standard"
                                 name="uid"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 value={update.uid}
                                 onChange={handleInputChange}
 
@@ -108,7 +109,7 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 id="standard-basic"
                                 label="User Name"
                                 variant="standard"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 name="name"
                                 value={update.name}
                                 onChange={handleInputChange}
@@ -119,20 +120,20 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 required
                                 id="standard-basic"
                                 label="Date of Birth"
-                                type='date'
                                 variant="standard"
                                 name="dob"
                                 value={update.dob}
+                                type='date'
                                 onChange={handleInputChange}
-                                // onChange={e => setFormData({ ...formData, dob: e.target.value })}
-                                focused /> &nbsp; &nbsp;
+                            // onChange={e => setFormData({ ...formData, dob: e.target.value })}
+                            /> &nbsp; &nbsp;
                         </div><br />
                         <div>
                             <TextField
                                 id="standard-basic"
                                 label="Update Email"
                                 variant="standard"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 name="email"
                                 value={update.email}
                                 onChange={handleInputChange}
@@ -141,16 +142,16 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                             />
                             {/* </div><br />
                         <div> */}
-                            <TextField
+                            {/* <TextField
                                 id="standard-basic"
                                 label="Update Password"
                                 variant="standard"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 name="password"
                                 value={update.password}
                                 onChange={handleInputChange}
 
-                            />
+                            /> */}
                             {/* </div><br />
                     <div> */}
                             <TextField
@@ -166,6 +167,7 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                         </div><br />
                         <div>
                             <TextField
+                                fullWidth
                                 id="standard-basic"
                                 label="Upload Image"
                                 variant="standard"
@@ -180,7 +182,7 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 id="standard-basic"
                                 label="Aadhar"
                                 variant="standard"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 name="aadhar"
                                 value={update.aadhar}
                                 onChange={handleInputChange}
@@ -193,12 +195,13 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 label="Date of Join"
                                 // type='date'
                                 variant="standard"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 name="doj"
                                 value={update.doj}
+                                type='date'
                                 onChange={handleInputChange}
-                                // onChange={e => setFormData({ ...formData, doj: e.target.value })}
-                                focused />
+                            // onChange={e => setFormData({ ...formData, doj: e.target.value })}
+                            />
                             {/* </div><br />
                         <div> */}
                             <TextField
@@ -220,7 +223,7 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 id="standard-basic"
                                 label="Address"
                                 variant="standard"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 name="address"
                                 value={update.address}
                                 onChange={handleInputChange}
@@ -232,7 +235,7 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 id="standard-basic"
                                 label="State"
                                 variant="standard"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 name="state"
                                 value={update.state}
                                 onChange={handleInputChange}
@@ -255,14 +258,14 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 id="standard-basic"
                                 label="Pincode"
                                 variant="standard"
-                                sx={{ marginRight: 4 }}
+                                sx={{ marginRight: 5 }}
                                 name="pin"
                                 value={update.pin}
                                 onChange={handleInputChange}
 
                             />
-                            {/* </div><br />
-                        <div> */}
+                        </div>
+                        {/* <div>
                             <TextField
                                 required
                                 id="standard-basic"
@@ -273,7 +276,7 @@ export default function UpdateUser({ show, handleClose, user }, props) {
                                 onChange={handleInputChange}
 
                             />
-                        </div><br />
+                        </div><br /> */}
                         {/* <input type="text" value={role.role_name} onChange={(e) => handleInputChange(e)} /> */}
                     </Modal.Body>
                     <Modal.Footer>

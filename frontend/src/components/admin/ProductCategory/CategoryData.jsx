@@ -52,13 +52,13 @@ export default function CategoryData() {
 
                 <Grid container spacing={3}>
                     <Grid item xs={6} md={4}>
-                        <Item style={{  border: '3px solid #311b92', boxShadow: "1px 1px 10px 0px ", height: "400px" }}>
-                            <h2 className='mt-4' style={{ color: "Black" }}>Add New Product</h2>
+                        <Item style={{  border: '3px solid #311b92', boxShadow: "1px 1px 10px 0px ", height: "450px" }}>
+                            <h2 className='mt-5' style={{ color: "Black" }}>Add New Product</h2>
                             <div className='mt-5'>
                                 <TextField
 
                                     id="standard-basic"
-                                    label="Product ID"
+                                    label="Category ID"
                                     variant="standard"
                                     name="Pcategory_id"
                                     value={Pcategory_id}
@@ -66,7 +66,7 @@ export default function CategoryData() {
                                 />
 
                             </div><br /> <br />
-                            <div>
+                            <div className='mt-3'>
                             <TextField
 
                                     id="standard-basic"

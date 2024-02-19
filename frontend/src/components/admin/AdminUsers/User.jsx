@@ -68,7 +68,7 @@ function User() {
         setRowsPerPage(+event.target.value);
         setPage(0);
     };
-    
+
     // -------------------------------------------------------------- Update User -------------------------------------------------------------
     // ---------------------------------------------------------------  Modal -----------------------------------------------------------------
     const [showModal, setShowModal] = useState(false);
@@ -95,13 +95,14 @@ function User() {
     console.log()
     //----------------------------------------------------  status update (Active Deactive) ----------------------------------------------------    
     async function activestatus(uid, e) {
-        let response = await axios.patch(`http://localhost:5000/api/admin/updatestatus/status=active&uid=${uid}`)
-        console.log(response);
+        let response = await axios.patch(`http://localhost:5000/api/admin/updatestatus?status=active&uid=${uid}`)
+        console.log(response.uid);
     }
     async function deactivestatus(uid, e) {
-        let response = await axios.patch(`http://localhost:5000/api/admin/updatestatus/status=deactive&uid=${uid}`)
+        let response = await axios.patch(`http://localhost:5000/api/admin/updatestatus?status=deactive&uid=${uid}`)
         console.log(response);
     }
+
     // ---------------------------------------------------------------  Assign Role  ----------------------------------------------------------
     const [openRoleModal, setOpenRoleModal] = useState(false);
 
@@ -111,7 +112,7 @@ function User() {
     const handleCloseRoleModal = () => {
         setOpenRoleModal(false);
     };
-    ///------------------------------------------------------------------  view Role ---------------------------------------------------------
+    //------------------------------------------------------------------  view Role ---------------------------------------------------------
     const [selectedViewUserId, setSelectedViewUserId] = useState(null);
     const [viewRoleModalOpen, setViewRoleModalOpen] = useState(false);
 
@@ -120,12 +121,12 @@ function User() {
         setViewRoleModalOpen(true);
     };
     // -------------------------------------------------------------------- Search ------------------------------------------------------------
-    const [search, setSearch] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
 
 
     return (
         <>
-            <div className='mt-5 ms-4' style={{ overflowX: 'auto' }}>
+            <div className='mt-4 ms-4' style={{ overflowX: 'auto' }}>
                 <div className='mb-4'>
                     <div className='d-flex justify-content-between'>
                         <div>
@@ -135,7 +136,14 @@ function User() {
                         </div>
                         <div>
                             <form class="form-inline my-2 my-lg-0 d-flex">
-                                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
+                                <input
+                                    class="form-control me-2"
+                                    type="search"
+                                    placeholder="Search Here"
+                                    aria-label="Search"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                />
                                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                             </form>
                         </div>
@@ -163,11 +171,12 @@ function User() {
                         </TableHead>
                         <TableBody>
                             {data
-                                .filter((items) => {
+                                .filter((item) => {
                                     return (
-                                        search.trim() === '' ||
-                                        items.uid?.toString().toLowerCase().includes(search.toLowerCase()) ||
-                                        items.name?.toLowerCase().includes(search.toLowerCase())
+                                        searchTerm.trim() === '' ||
+                                        item.uid?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                        item.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                        item.city?.toLowerCase().includes(searchTerm.toLowerCase())
                                     );
                                 })
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
@@ -186,19 +195,17 @@ function User() {
                                         <StyledTableCell align="left">{item.city}</StyledTableCell>
                                         {/* <StyledTableCell align="left">{item.pin}</StyledTableCell> */}
                                         <StyledTableCell align="left">
-                                            {item.status === "deactive" ? (
-                                                <Switch
-                                                    onChange={(e) => activestatus(item.uid, e)}
-                                                />
-                                            ) : (
-                                                <Switch {...label} defaultChecked
-                                                    onChange={(e) => deactivestatus(item.uid, e)}
-                                                />
-
-                                            )}
-
+                                            {
+                                                (item.status === "deactive") ?
+                                                    <Switch
+                                                        onChange={(e) => activestatus(item.uid, e)}
+                                                    /> :
+                                                    <Switch {...label} defaultChecked
+                                                        onChange={(e) => deactivestatus(item.uid, e)}
+                                                    />
+                                            }
                                         </StyledTableCell>
-                                        <StyledTableCell align="left">
+                                        <StyledTableCell align="left" >
                                             <Button color="secondary" aria-label="edit" size='small'
                                                 onClick={() => handleEdit(item)}>
                                                 <EditIcon />
@@ -210,12 +217,8 @@ function User() {
                                             </Button>
                                         </StyledTableCell>
                                         <StyledTableCell align="left">
-                                            {/* <Button color="secondary" aria-label="edit" size='small'
-                                                onClick={handleOpenRoleModal}
-                                            >
-                                                Assign Role
-                                            </Button> */}
-                                            <RoleAssignData uuid={item.uid}/>
+                                            
+                                            <RoleAssignData uuid={item.uid} />
 
                                             <Button
                                                 color="secondary"
@@ -270,8 +273,6 @@ function User() {
 
                 {/* <RoleAssignData uid={item.uid} /> */}
 
-
-
                 {selectedViewUserId && (
                     <ViewRole
                         uid={selectedViewUserId}
@@ -279,7 +280,6 @@ function User() {
                         handleClose={() => setViewRoleModalOpen(false)}
                     />
                 )}
-
             </div>
         </>
     )

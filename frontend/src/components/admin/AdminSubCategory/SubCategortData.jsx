@@ -75,7 +75,7 @@ export default function SubCategortData() {
 
     }
 
-
+// --------------------------------------------------------------   Get product ID ------------------------------------------------------------
 
     const [roleOptions, setRoleOptions] = useState([]);
     const getApiData = async () => {
@@ -93,15 +93,15 @@ export default function SubCategortData() {
         <Box sx={{ flexGrow: 1 }} className='m-5, p-5 mt-5'>
             <Grid container spacing={2}>
                 <Grid item xs={6} md={4}>
-                    <Item style={{ border: '2px solid #311b92', boxShadow: "1px 1px 10px 0px ", height: "460px" }}>
+                    <Item style={{ border: '2px solid #311b92', boxShadow: "1px 1px 10px 0px ", height: "515px" }}>
                         <h2 className='mt-4' style={{ color: "#37474f" }}>Add Sub Categories</h2>
                         <div className='mt-4'>
 
                             <FormControl sx={{
-                                 width: '50%', // Set the width to half of the parent container
+                                 width: '50%', 
                                  margin: '0 auto'
                                 }}>
-                                <InputLabel >Product ID</InputLabel>
+                                <InputLabel >Category Name</InputLabel>
                                 <Select
                                      id="standard-basic"
                                      label="category ID"
@@ -111,15 +111,15 @@ export default function SubCategortData() {
                                      onChange={e => setData({ ...data, c_id: e.target.value })}
                                  >
                                      {roleOptions.map((row, index) => {
-                                         return <MenuItem key={index} value={row.Pcategory_id}>{row.Pcategory_id}</MenuItem>
+                                         return <MenuItem key={index} value={row.Pcategory_id}>{row.category_name}</MenuItem>
                                      }
                                      )}
                                 </Select>
                             </FormControl>
                         </div><br />
-                        <div>
-                            <TextField
-
+                        <div className='mt-3'>
+                            <TextField 
+                            
                                 id="standard-basic"
                                 label="Sub Category Id"
                                 variant="standard"
@@ -129,7 +129,7 @@ export default function SubCategortData() {
                                 onChange={e => setData({ ...data, subCategory_id: e.target.value })}
                             />
                         </div> <br />
-                        <div >
+                        <div className='mt-3' >
                             <TextField
 
                                 id="standard-basic"
@@ -158,7 +158,7 @@ export default function SubCategortData() {
                         </div>
 
                         <div className='mt-4'>
-                            <Button color="primary" style={{ color: "#37474f" }} onClick={handleSubmit}>
+                            <Button  color="primary" style={{ color: "#37474f" }} onClick={handleSubmit}>
                                 Submit
                             </Button>
                         </div>

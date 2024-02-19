@@ -1,12 +1,39 @@
 import axios from 'axios';
 import React, { useState, useEffect } from 'react'
-import { Table } from 'react-bootstrap'
-import { Button, TablePagination } from '@mui/material';
+// import { Table } from 'react-bootstrap'
+import {
+    Table, TableBody, TableContainer,
+    TableHead, TableRow, Paper, styled,
+    TableCell, tableCellClasses, Button, TablePagination
+} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import UpdateRole from './UpdateRole';
 
 
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+        padding: '8px',
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        padding: '8px',
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+        height: '10px',
+    },
+}));
 
 export default function RoleTable() {
     const [data, setData] = useState([]);
@@ -41,8 +68,7 @@ export default function RoleTable() {
         setSelectedRole(null);
     }
 
-
-    /// Get Data in Table ////
+//------------------------------------------------- Get Data in Table   ------------------------------------------------------------
     const loadData = async () => {
         const response = await axios.get("http://localhost:5000/api/admin/roles/newroles")
         setData(response.data)
@@ -52,38 +78,62 @@ export default function RoleTable() {
     }, []);
 
 
+// -------------------------------------------------------------------- Search ------------------------------------------------------------
+    const [searchTerm, setSearchTerm] = useState('');
+
     return (
         <div style={{ overflowX: 'auto' }}>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th className='text-white' style={{ backgroundColor: "Black", }}>Sr. No.</th>
-                        <th className='text-white' style={{ backgroundColor: "Black" }}>Role ID</th>
-                        <th className='text-white' style={{ backgroundColor: "Black" }}>Role Name</th>
-                        <th className='text-white' style={{ backgroundColor: "Black" }}>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {data
-                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                        .map((item, index) => (
-                            <tr>
-                                <td>{index + 1}</td>
-                                <td>{item.role_id}</td>
-                                <td>{item.role_name}</td>
-                                <td>
-                                    <Button color="secondary" aria-label="edit" size="small" onClick={() => handleEdit(item)}>
-                                        <EditIcon />
-                                    </Button>
-                                    {/* <Fab color="primary" aria-label="view" size="small" className='ms-3'>
+            <div>
+                <form class="form-inline my-2  d-flex">
+                    <input
+                        class="form-control me-2"
+                        type="search"
+                        placeholder="Search Here"
+                        aria-label="Search"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
+            <TableContainer component={Paper}>
+                <Table aria-label="customized table">
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell className='text-white' style={{ backgroundColor: "Black", }}>Sr. No.</StyledTableCell>
+                            <StyledTableCell className='text-white' style={{ backgroundColor: "Black" }}>Role ID</StyledTableCell>
+                            <StyledTableCell className='text-white' style={{ backgroundColor: "Black" }}>Role Name</StyledTableCell>
+                            <StyledTableCell className='text-white' style={{ backgroundColor: "Black" }}>Action</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {data
+                            .filter((item) => {
+                                return (
+                                    searchTerm.trim() === '' ||
+                                    item.role_id?.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                    item.role_name?.toLowerCase().includes(searchTerm.toLowerCase())
+                                );
+                            })
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((item, index) => (
+                                <StyledTableRow>
+                                    <StyledTableCell>{index + 1}</StyledTableCell>
+                                    <StyledTableCell>{item.role_id}</StyledTableCell>
+                                    <StyledTableCell>{item.role_name}</StyledTableCell>
+                                    <StyledTableCell>
+                                        <Button color="secondary" aria-label="edit" size="small" onClick={() => handleEdit(item)}>
+                                            <EditIcon />
+                                        </Button>
+                                        {/* <Fab color="primary" aria-label="view" size="small" className='ms-3'>
                                     <VisibilityIcon />
                                 </Fab> */}
-                                </td>
-                            </tr>
-                        ))}
-                </tbody>
-            </Table>
-
+                                    </StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[5, 10, 20]}
                 component="div"
@@ -93,13 +143,15 @@ export default function RoleTable() {
                 onPageChange={handleChangePage}
                 onRowsPerPageChange={handleChangeRowsPerPage}
             />
-            {selectedRole && (
-                <UpdateRole
-                    show={showModal}
-                    handleClose={handleCloseModal}
-                    role={selectedRole}
-                />
-            )}
-        </div>
+            {
+                selectedRole && (
+                    <UpdateRole
+                        show={showModal}
+                        handleClose={handleCloseModal}
+                        role={selectedRole}
+                    />
+                )
+            }
+        </div >
     )
 }

@@ -1,31 +1,31 @@
 import React from 'react'
 import {
-    CDBSidebar,
-    CDBSidebarContent,
-    CDBSidebarFooter,
-    CDBSidebarHeader,
-    CDBSidebarMenu,
-    CDBSidebarMenuItem,
-  } from 'cdbreact';
-  
-  import { NavLink } from 'react-router-dom';
+  CDBSidebar,
+  CDBSidebarContent,
+  CDBSidebarFooter,
+  CDBSidebarHeader,
+  CDBSidebarMenu,
+  CDBSidebarMenuItem,
+} from 'cdbreact';
+
+import { NavLink } from 'react-router-dom';
 
 
 
 function Sidebarr() {
   return (
-    <div style={{ display: 'flex', height: '94vh', overflow: 'scroll initial' }}>
-      <CDBSidebar textColor="#fff" backgroundColor="#202c70">
+    <div style={{ display: 'flex', height: '92vh', overflow: 'scroll initial', }}>
+      <CDBSidebar textColor="#fff" backgroundColor="#202c70" >
         <CDBSidebarHeader prefix={<i className="fa fa-bars fa-large"></i>}>
           <a href="/" className="text-decoration-none" style={{ color: 'inherit' }}>
-            Sidebar
+            Menu
           </a>
         </CDBSidebarHeader>
 
         <CDBSidebarContent className="sidebar-content">
           <CDBSidebarMenu>
-            <NavLink exact to="/dashboard" activeClassName="activeClicked">            
-              <CDBSidebarMenuItem icon="clock"  >Dashboard</CDBSidebarMenuItem>
+            <NavLink exact to="/dashboard" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="clock">Dashboard</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/user-admin" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="user">Users</CDBSidebarMenuItem>
@@ -40,7 +40,7 @@ function Sidebarr() {
               <CDBSidebarMenuItem icon="shapes">Category</CDBSidebarMenuItem>
             </NavLink>
 
-            <NavLink exact to="/product-sub-category"  activeClassName="activeClicked">
+            <NavLink exact to="/product-sub-category" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="sitemap">Sub-category</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/retailers" activeClassName="activeClicked">
@@ -48,6 +48,9 @@ function Sidebarr() {
             </NavLink>
             <NavLink exact to="/customers" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="users">Customers</CDBSidebarMenuItem>
+            </NavLink>
+            <NavLink exact to="/banking" activeClassName="activeClicked">
+              <CDBSidebarMenuItem icon="users">Banking</CDBSidebarMenuItem>
             </NavLink>
             <NavLink exact to="/offers" activeClassName="activeClicked">
               <CDBSidebarMenuItem icon="percent">Offers</CDBSidebarMenuItem>

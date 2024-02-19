@@ -34,8 +34,8 @@ export default function UpdateProduct( { show, handleClose, product }) {
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Product</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <div className='mt-5'>
+                <Modal.Body style={{border:"1px solid black" }} className='ms-3 me-3 rounded-2'>
+                    <div className='mt-5 ms-5'>
                         <TextField
                         disabled
                             id="standard-basic"
@@ -46,7 +46,7 @@ export default function UpdateProduct( { show, handleClose, product }) {
                             onChange={handleInputChange}
                         />
                     </div> <br /> <br />
-                    <div>
+                    <div className='ms-5'>
                         <TextField
                             id="standard-basic"
                             label="Product Name"

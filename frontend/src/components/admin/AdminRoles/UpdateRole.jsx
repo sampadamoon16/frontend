@@ -1,13 +1,16 @@
-import axios from 'axios';
 import React, { useState } from 'react'
 import { TextField } from '@mui/material'
 import { Modal, Button } from 'react-bootstrap';
+import axios from 'axios';
 
 export default function UpdateRole({ show, handleClose, role }) {
+
     const [formData, setFormData] = useState({
         role_id: role.role_id,
-        role_name: role.role_name
+        role_name: role.role_name,        
+
     });
+
 
     const handleSaveChanges = (role) => {        
     
@@ -27,15 +30,17 @@ export default function UpdateRole({ show, handleClose, role }) {
             ...prevState,
             [name]: value
         }));
-    }
+    } 
+    
+  
     return (
         <div>
-            <Modal show={show} onHide={handleClose}>
+            <Modal show={show} onHide={handleClose} className='rounded-5'>
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Role</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
-                    <div className='mt-5'>
+                <Modal.Body style={{border:"1px solid black", boxShadow: "1px 1px 10px 0px "}}  className='ms-3 me-3 rounded-3'>
+                    <div className='mt-4 ms-5'  >
                         <TextField
                         disabled
                             id="standard-basic"
@@ -46,7 +51,7 @@ export default function UpdateRole({ show, handleClose, role }) {
                             onChange={handleInputChange}
                         />
                     </div> <br /> <br />
-                    <div>
+                    <div className='ms-5'>
                         <TextField
                             id="standard-basic"
                             label="Role Name"
@@ -60,10 +65,10 @@ export default function UpdateRole({ show, handleClose, role }) {
                     {/* <input type="text" value={role.role_name} onChange={(e) => handleInputChange(e)} /> */}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
+                    <Button variant="secondary" onClick={handleClose} className='rounded-3'>
                         Close
                     </Button>
-                    <Button variant="primary" onClick={() => handleSaveChanges(role)}>
+                    <Button variant="primary" onClick={handleSaveChanges} className='rounded-3'>
                         Save Changes
                     </Button>
                 </Modal.Footer>

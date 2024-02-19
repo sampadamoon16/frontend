@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Table } from 'react-bootstrap'
-import { Fab, TablePagination, Grid , Button} from '@mui/material';
+
+import {   Table, TableBody, TableContainer,
+    TableHead, TableRow, Paper, styled,
+    TableCell, tableCellClasses, TablePagination, Grid, Button } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import UpIcon from '@mui/icons-material/KeyboardArrowUp';
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -8,6 +10,30 @@ import axios from 'axios';
 import UpdateProduct from './UpdateProduct';
 
 
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+        padding: '8px',
+
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        padding: '9px',
+    },
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    '&:last-child td, &:last-child th': {
+        border: 0,
+        height: '10px',
+    },
+}));
 
 export default function CategoryTable() {
 
@@ -50,39 +76,65 @@ export default function CategoryTable() {
         loadData();
     }, []);
 
+    //---------------------------------------------------   Search   --------------------------------------------------------------------------------
+    const [searchTerm, setSearchTerm] = useState('');
+
     return (
         <div style={{ overflowX: 'auto' }}>
+            <div>
+                <form class="form-inline my-2  d-flex">
+                    <input
+                        class="form-control me-2"
+                        type="search"
+                        placeholder="Search Here"
+                        aria-label="Search"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                    />
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </div>
             <Grid container spacing={3}>
                 <Grid item xs={12}>
-                    <Table striped bordered hover>
-                        <thead >
-                            <tr >
-                                <th className='text-white' style={{ backgroundColor: "Black" }}>Sr. No.</th>
-                                <th className='text-white' style={{ backgroundColor: "Black" }}>Product ID</th>
-                                <th className='text-white' style={{ backgroundColor: "Black" }}>Product Name</th>
-                                <th className='text-white' style={{ backgroundColor: "Black" }}>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                <TableContainer component={Paper}>
+                    <Table  aria-label="customized table">
+                        <TableHead >
+                            <TableRow >
+                                <StyledTableCell className='text-white' style={{ backgroundColor: "Black" }}>Sr. No.</StyledTableCell>
+                                <StyledTableCell className='text-white' style={{ backgroundColor: "Black" }}>Category ID</StyledTableCell>
+                                <StyledTableCell className='text-white' style={{ backgroundColor: "Black" }}>Category Name</StyledTableCell>
+                                <StyledTableCell className='text-white' style={{ backgroundColor: "Black" }}>Action</StyledTableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
                             {data
+                                .filter((item) => {
+                                    return (
+                                        searchTerm.trim() === '' ||
+                                        item.Pcategory_id?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                        item.category_name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                        item.city?.toLowerCase().includes(searchTerm.toLowerCase())
+                                    );
+                                })
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((item, index) => (
-                                    <tr>
-                                        <th scope="row">{index + 1}</th>
-                                        <td>{item.Pcategory_id}</td>
-                                        <td>{item.category_name}</td>
-                                        <td>
+                                    <StyledTableRow>
+                                        <StyledTableCell scope="row">{index + 1}</StyledTableCell>
+                                        <StyledTableCell>{item.Pcategory_id}</StyledTableCell>
+                                        <StyledTableCell>{item.category_name}</StyledTableCell>
+                                        <StyledTableCell>
                                             <Button color="secondary" aria-label="edit" size="small" onClick={() => handleEdit(item)}>
                                                 <EditIcon />
                                             </Button>
                                             {/* <Fab color="primary" aria-label="view" size="small" className='ms-3'>
                                     <VisibilityIcon />
                                 </Fab> */}
-                                        </td>
-                                    </tr>
+                                        </StyledTableCell>
+                                    </StyledTableRow>
                                 ))}
-                        </tbody>
+                        </TableBody>
                     </Table>
+                    </TableContainer>
                 </Grid>
                 <Grid item xs={12}>
                     <TablePagination
